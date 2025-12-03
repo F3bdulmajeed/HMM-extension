@@ -1,0 +1,112 @@
+
+dis_names <- c( "tvonmises" , "gamma" , "gamma")
+
+variables <- c( "x", "y","z")
+
+
+
+#ref_location <- c( 45.60492 , 6.182693 )
+id = 1
+loc_data <- read.csv( file = paste0("datasets/goat_",id,"_utm.csv"  ) )
+loc_data$bearings <- c(atan2(diff(loc_data$easting), diff(loc_data$northin)),NA)
+
+
+#con_time <-  loc_data$DD_Hour + loc_data$DD_Min/60 + loc_data$DD_Sec/3600
+#covariates <- data.frame( x  = sin( pi/12 * con_time ) ,
+# y  = cos( pi/12 * con_time ) ,
+#d =  distHaversine(loc_data[,7:8], ref_location)  )
+
+
+names(loc_data)[12] <- "northing"
+
+
+
+
+
+h <- loc_data$bearings ; model = "IID" ; method = "rolling" ; window = 21 ; penalty_inflation  =T
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+est_tp <- seg_bearing( loc_data$bearings , model = "IID" , method = "rolling" , window = 21, penalty_inflation  =T)
+est_tp[1]<-1
+
+
+processed_data   <- convert_bearings_to_steps.turns( loc_data[est_tp,] )
+processed_data$y <- c( diff(est_tp), 1 )
+processed_data$z <- processed_data$z/processed_data$y
+
+cov <- covariates[est_tp,]
+cov[is.na(processed_data$x),] = NA
+
+
+cov <- na.omit(cov)
+data <- na.omit( processed_data )
+
+
+# params <-param2
+# 
+# params <- list(
+#   kappas_x = 1,
+#   w_x       = 9,
+#   shapes_y  = 1,
+#   rates_y   = 0.002,
+#   shapes_z  = 0.3,
+#   rates_z   = 2
+# )
+# 
+# 
+# 
+# params <- lapply(params, function(vec) {
+#   new_element <- tail(vec, 1)*c(2.5,4)
+#   c(vec, new_element)
+# })
+# 
+# 
+# states =  subset(States_3 , scenario == "A: Strong Pattern" )$state
+# 
+# data = simulate_observations(states , params , variables , dis_names,NULL   )
+# 
+# data$y <- round(data$y)
+
+m = 2
+
+
+covariate <- NULL
+formula <- NULL
+w_values <- seq(10, 50 , 10)
+dis <- dis_names
+variable <- variables
+variables_list <- variables
+
+
+
+#####
+fit3 <- fit_HMM_with_kmean_initialsation(data , 3 , NULL , NULL , dis_names, variables  , w_values , maxit = 10000000 )
+2*fit3$n_params - 2*fit3$neg_lik_value
+
+
+#####
+
+
+t0 <- Sys.time()
+fit2 <- fit_HMM_with_kmean_initialsation(data , 2 , NULL , NULL , dis_names, variables  , w_values , maxit = 10000000 )
+t1 <- Sys.time()
+t1 - t0
+2*fit2$n_params - 2*fit2$neg_lik_value
+

@@ -1,0 +1,53 @@
+#include <Rcpp.h>
+#include <cmath>
+using namespace Rcpp;
+
+// Wrap angle to (-pi, pi]
+inline double wrap_pi(double x) {
+  return std::atan2(std::sin(x), std::cos(x));
+}
+
+// [[Rcpp::export]]
+NumericVector AR_simulator_mu(NumericVector noise,
+                              NumericVector mu,      // mean direction at each t
+                              double rho,
+                              NumericVector params)  // AR weights (length m). If empty -> AR(1) with phi=1
+{
+  const int n = noise.size();
+  if (mu.size() != n) stop("noise and mu must have the same length");
+  if (n == 0) return NumericVector();
+  
+  int m = params.size();
+  if (m == 0) {                   // default to AR(1)
+    m = 1;
+    params = NumericVector::create(1.0);
+  }
+  
+  // Precompute sin(mu), cos(mu)
+  NumericVector sinmu(n), cosmu(n);
+  for (int t = 0; t < n; ++t) {
+    sinmu[t] = std::sin(mu[t]);
+    cosmu[t] = std::cos(mu[t]);
+  }
+  
+  NumericVector h(n), s(n), c(n);
+  const double q = rho / (1.0 - rho);
+  
+  for (int t = 0; t < n; ++t) {
+    double ars = 0.0, arc = 0.0;
+    
+    // Use available lags only: j = 1..min(m, t)
+    const int use_lags = std::min(m, t);
+    for (int j = 1; j <= use_lags; ++j) {
+      ars += q * params[j - 1] * s[t - j];
+      arc += q * params[j - 1] * c[t - j];
+    }
+    
+    const double base = std::atan2(sinmu[t] + ars, cosmu[t] + arc);
+    h[t] = wrap_pi(base + noise[t]);
+    s[t] = std::sin(h[t]);
+    c[t] = std::cos(h[t]);
+  }
+  
+  return h;
+}

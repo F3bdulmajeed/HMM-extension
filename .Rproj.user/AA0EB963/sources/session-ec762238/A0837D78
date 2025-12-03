@@ -1,0 +1,26 @@
+{
+    "id": "A0837D78",
+    "path": "C:/Users/smp22afa/Desktop/tHMM/Hidden Markov Models/src/forward_algorithm.cpp",
+    "project_path": "src/forward_algorithm.cpp",
+    "type": "cpp",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1764767320663.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "7,32",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1764767163,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1764767163,
+    "read_only": false,
+    "read_only_alternatives": []
+}

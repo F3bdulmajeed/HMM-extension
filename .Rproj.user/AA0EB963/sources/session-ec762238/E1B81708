@@ -1,0 +1,26 @@
+{
+    "id": "E1B81708",
+    "path": "C:/Users/smp22afa/Desktop/tHMM/Hidden Markov Models/src/inference.R",
+    "project_path": "src/inference.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1764767314647.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "668,0",
+        "scrollLine": "5"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1764767203,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1764767203,
+    "read_only": false,
+    "read_only_alternatives": []
+}
