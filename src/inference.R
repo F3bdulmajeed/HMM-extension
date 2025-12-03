@@ -3,7 +3,7 @@
 #
 # Purpose: New HMM method for behavioural state identification from high frequency movement data
 #
-# Author: ..
+# Author:  Abdulmajeed Alharbi
 #
 # Date created: December 02 2025
 #
