@@ -1,15 +1,13 @@
 
 ################################################################################
+
+#Purpose: Behavioural state identification from ultra-high-frequency movement data
 #
-# Purpose: New HMM method for behavioural state identification from high frequency movement data
+#Author:  Abdulmajeed Alharbi
 #
-# Author:  ..
-#
-# Date created: December 02 2025
-#
+#Date created: December 02 2025
+
 ################################################################################
-
-
 
 # Install missing packages
 for (pkg in  c("Rcpp", "dplyr", "accelerometry")) {
